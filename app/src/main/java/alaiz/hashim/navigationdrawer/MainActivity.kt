@@ -11,8 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
-
-
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 lateinit var drawerLayout: DrawerLayout
@@ -54,41 +53,15 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
 
             when (it.itemId) {
-                R.id.starred -> {
-                    val fragment=StarredFragment.newInstance("","")
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, fragment).addToBackStack(null)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
-                    toolbar.setTitle("Starred Fragment")
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(this, "starred is clicked", Toast.LENGTH_LONG).show()
+                R.id.starred -> {callFragment(R.id.starred,"Starred Fragment")
                     true
                 }
                 R.id.recent -> {
-                    val fragment=RecentFragment.newInstance("","")
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, fragment).addToBackStack(null)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
-                    toolbar.setTitle("Recent Fragment")
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(this, "recent is clicked", Toast.LENGTH_LONG).show()
+                    callFragment(R.id.recent,"Recent Fragment")
                     true
                 }
                 R.id.upload -> {
-                    val fragment= UploadFragment.newInstance("","")
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, fragment).addToBackStack(null)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
-                    toolbar.setTitle("Upload Fragment")
-                    drawerLayout.closeDrawer(GravityCompat.START)
-
-                    Toast.makeText(this, "upload is clicked", Toast.LENGTH_LONG).show()
+                    callFragment(R.id.upload,"Upload Fragment")
                     true
                 }
                 else -> {
@@ -106,4 +79,16 @@ class MainActivity : AppCompatActivity() {
         else
         super.onBackPressed()
     }
+    fun callFragment(itemId:Int,title:String){
+        val fragment=StarredFragment.newInstance("You are in $title","")
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment).addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
+        toolbar.setTitle(title)
+        drawerLayout.closeDrawer(GravityCompat.START)
+        Toast.makeText(this, "$title is opened", Toast.LENGTH_LONG).show()
+    }
+
 }
